@@ -6,12 +6,16 @@ import Cards from "./components/Cards";
 function App() {
   return (
     <div className="App">
-      <div className="my-5 px-20">
-        <Header />
+      <div className="bg-white">
+        <div className="container mx-auto py-5">
+          <Header />
+        </div>
       </div>
-      <div className="bg-slate-100 px-20 py-10">
-        <Filter />
-        <Cards />
+      <div className=" bg-gray-100">
+        <div className="container mx-auto py-10">
+          <Filter />
+          <Cards />
+        </div>
       </div>
     </div>
   );
