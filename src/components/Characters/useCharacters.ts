@@ -1,29 +1,39 @@
-import { useEffect, useState } from "react";
+import { useInfiniteQuery } from "react-query";
 
 // Api
 import axios from "../../api/axiosInstance";
 
 // Type
-interface ICharacter {
-  id: number;
-  name: string;
-  status: string;
-  image: string;
-}
+// interface ICharacter {
+//   id: number;
+//   name: string;
+//   status: string;
+//   image: string;
+// }
+
+const fetchCharacters = ({ pageParam = 1 }) => {
+  return axios.get(`/character/?page=${pageParam}`);
+};
 
 export default function useCharacters() {
-  const [characters, setCharacters] = useState<ICharacter[]>([]);
+  const { isLoading, data, hasNextPage, fetchNextPage } = useInfiniteQuery(
+    "characters",
+    fetchCharacters,
+    {
+      getNextPageParam: (_lastPage, pages) => {
+        if (pages.length < 42) {
+          return pages.length + 1;
+        } else {
+          return undefined;
+        }
+      },
+    }
+  );
 
-  useEffect(() => {
-    (async function () {
-      try {
-        const { data: characters } = await axios.get("/character");
-        setCharacters(characters.results);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
-
-  return { characters };
+  return {
+    data,
+    isLoading,
+    hasNextPage,
+    fetchNextPage,
+  };
 }
