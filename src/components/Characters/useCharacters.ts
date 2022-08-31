@@ -18,12 +18,12 @@ export default function useCharacters() {
     (async function () {
       try {
         const { data: characters } = await axios.get("/character");
-        setCharacters(characters);
+        setCharacters(characters.results);
       } catch (error) {
         console.log(error);
       }
     })();
-  }, [characters]);
+  }, []);
 
   return { characters };
 }

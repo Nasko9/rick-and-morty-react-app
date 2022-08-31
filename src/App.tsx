@@ -1,7 +1,7 @@
 // Components
 import Header from "./components/Header";
 import Filter from "./components/Filter";
-import Cards from "./components/Cards";
+import Characters from "./components/Characters";
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
       <div className=" bg-gray-100">
         <div className="container mx-auto py-10">
           <Filter />
-          <Cards />
+          <Characters />
         </div>
       </div>
     </div>
