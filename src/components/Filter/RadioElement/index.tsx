@@ -1,3 +1,4 @@
+// Type
 interface IRadioElement {
   placeholder: string;
   value: string;

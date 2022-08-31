@@ -1,5 +1,7 @@
+// Component
 import RadioElement from "./RadioElement";
 
+// Select data
 const selectElements = [
   { placeholder: "Any", value: "any" },
   { placeholder: "Alive", value: "alive" },

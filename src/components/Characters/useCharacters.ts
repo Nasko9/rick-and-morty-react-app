@@ -1,29 +1,53 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useInfiniteQuery } from "react-query";
 
 // Api
 import axios from "../../api/axiosInstance";
 
-// Type
-interface ICharacter {
-  id: number;
-  name: string;
-  status: string;
-  image: string;
-}
+// Function for fetching data
+const fetchCharacters = ({ pageParam = 1 }) => {
+  return axios.get(`/character/?page=${pageParam}`);
+};
 
+// Custom hook
 export default function useCharacters() {
-  const [characters, setCharacters] = useState<ICharacter[]>([]);
+  const { isLoading, data, hasNextPage, fetchNextPage } = useInfiniteQuery(
+    "characters",
+    fetchCharacters,
+    {
+      getNextPageParam: (_lastPage, pages) => {
+        if (pages.length < 42) {
+          return pages.length + 1;
+        } else {
+          return undefined;
+        }
+      },
+    }
+  );
 
   useEffect(() => {
-    (async function () {
-      try {
-        const { data: characters } = await axios.get("/character");
-        setCharacters(characters.results);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
+    let fetching = false;
 
-  return { characters };
+    const onScroll = async (event: any) => {
+      const { scrollHeight, scrollTop, clientHeight } =
+        event.target.scrollingElement;
+
+      if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.5) {
+        fetching = true;
+        if (hasNextPage) fetchNextPage();
+        fetching = false;
+      }
+    };
+
+    document.addEventListener("scroll", onScroll);
+
+    return () => {
+      document.removeEventListener("scroll", onScroll);
+    };
+  }, [fetchNextPage, hasNextPage]);
+
+  return {
+    data,
+    isLoading,
+  };
 }
