@@ -4,7 +4,7 @@ import { useInfiniteQuery } from "react-query";
 // Api
 import axios from "../../api/axiosInstance";
 
-// Function for fetching data
+// Function for fetching all data
 const fetchCharacters = ({ pageParam = 1 }) => {
   return axios.get(`/character/?page=${pageParam}`);
 };
@@ -16,7 +16,7 @@ export default function useCharacters() {
     fetchCharacters,
     {
       getNextPageParam: (_lastPage, pages) => {
-        if (pages.length < 42) {
+        if (pages.length < pages[0].data.info.pages) {
           return pages.length + 1;
         } else {
           return undefined;
