@@ -13,7 +13,7 @@ export default function Filter() {
       <p>Character status: &nbsp;</p>
       <div className="flex gap-3">
         {selectElements.map(({ placeholder, value }) => (
-          <RadioElement placeholder={placeholder} value={value} />
+          <RadioElement key={value} placeholder={placeholder} value={value} />
         ))}
       </div>
     </div>
