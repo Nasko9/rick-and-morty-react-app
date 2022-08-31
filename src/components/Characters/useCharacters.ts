@@ -1,20 +1,15 @@
+import { useEffect } from "react";
 import { useInfiniteQuery } from "react-query";
 
 // Api
 import axios from "../../api/axiosInstance";
 
-// Type
-// interface ICharacter {
-//   id: number;
-//   name: string;
-//   status: string;
-//   image: string;
-// }
-
+// Function for fetching data
 const fetchCharacters = ({ pageParam = 1 }) => {
   return axios.get(`/character/?page=${pageParam}`);
 };
 
+// Custom hook
 export default function useCharacters() {
   const { isLoading, data, hasNextPage, fetchNextPage } = useInfiniteQuery(
     "characters",
@@ -30,10 +25,29 @@ export default function useCharacters() {
     }
   );
 
+  useEffect(() => {
+    let fetching = false;
+
+    const onScroll = async (event: any) => {
+      const { scrollHeight, scrollTop, clientHeight } =
+        event.target.scrollingElement;
+
+      if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.5) {
+        fetching = true;
+        if (hasNextPage) fetchNextPage();
+        fetching = false;
+      }
+    };
+
+    document.addEventListener("scroll", onScroll);
+
+    return () => {
+      document.removeEventListener("scroll", onScroll);
+    };
+  }, [fetchNextPage, hasNextPage]);
+
   return {
     data,
     isLoading,
-    hasNextPage,
-    fetchNextPage,
   };
 }

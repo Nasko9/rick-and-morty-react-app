@@ -1,3 +1,4 @@
+// Type
 interface ICardTitle {
   title: string;
 }
