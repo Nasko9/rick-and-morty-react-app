@@ -11,7 +11,7 @@ interface ICard {
 export default function Card({ name, image }: ICard) {
   return (
     <div className="mb-5 h-80 w-72 select-none justify-items-center rounded-lg shadow-md">
-      <CardImage image={image} />
+      <CardImage image={image} alt={name} />
       <CardTitle title={name} />
     </div>
   );
