@@ -1,4 +1,9 @@
-export default function Search({ inputHandler }: any) {
+// Type
+interface ISearch {
+  inputHandler: (inputValue: string) => void;
+}
+
+export default function Search({ inputHandler }: ISearch) {
   return (
     <input
       type="text"

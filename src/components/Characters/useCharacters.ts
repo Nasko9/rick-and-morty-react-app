@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import { useInfiniteQuery } from "react-query";
 
 // Api
-import axios from "../../api/axiosInstance";
+import fetchCharacters from "../../api/characters";
 
 // Context
 import FilterContext from "../../context/filterContext";
@@ -10,17 +10,10 @@ import FilterContext from "../../context/filterContext";
 export default function useCharacters() {
   const { filterValue, searchValue } = useContext(FilterContext);
 
-  // Function for fetching all data
-  const fetchCharacters = ({ pageParam = 1 }) => {
-    return axios.get(
-      `/character/?page=${pageParam}&status=${filterValue}&name=${searchValue}`
-    );
-  };
-
   const { isLoading, data, hasNextPage, fetchNextPage, status } =
     useInfiniteQuery(
       ["characters", filterValue, searchValue],
-      fetchCharacters,
+      () => fetchCharacters(1, filterValue, searchValue),
       {
         getNextPageParam: (_lastPage, pages) => {
           if (pages.length < pages[0].data.info.pages) {
@@ -35,14 +28,16 @@ export default function useCharacters() {
   useEffect(() => {
     let fetching = false;
 
-    const onScroll = async (event: any) => {
-      const { scrollHeight, scrollTop, clientHeight } =
-        event.target.scrollingElement;
+    const onScroll = async () => {
+      if (document.scrollingElement) {
+        const { scrollHeight, scrollTop, clientHeight } =
+          document.scrollingElement;
 
-      if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.5) {
-        fetching = true;
-        if (hasNextPage) fetchNextPage();
-        fetching = false;
+        if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.5) {
+          fetching = true;
+          if (hasNextPage) fetchNextPage();
+          fetching = false;
+        }
       }
     };
 

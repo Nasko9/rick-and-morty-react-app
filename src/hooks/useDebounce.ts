@@ -1,9 +1,9 @@
 import { useState } from "react";
 
 export default function useDebounce() {
-  const [newTimeout, setNewTimeout] = useState<any>("");
+  const [newTimeout, setNewTimeout] = useState<NodeJS.Timeout>();
 
-  function debounce(func: any, wait: number) {
+  function debounce(func: () => void, wait: number) {
     clearTimeout(newTimeout);
 
     const timeout = setTimeout(() => {
