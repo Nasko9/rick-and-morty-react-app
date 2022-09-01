@@ -16,5 +16,9 @@ export default function Skeleton() {
     cardList.push(<SkeletonCard key={i} />);
   }
 
-  return <>{cardList}</>;
+  return (
+    <div className="grid justify-items-center gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+      {cardList}
+    </div>
+  );
 }
