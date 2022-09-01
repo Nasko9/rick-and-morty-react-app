@@ -7,7 +7,7 @@ import Filter from "./components/Filter";
 import Characters from "./components/Characters";
 
 // Context
-import { FilterContextProvider } from "./components/Filter/filterContext";
+import { FilterContextProvider } from "./context/filterContext";
 
 // React Qery client
 const queryClient = new QueryClient();
@@ -24,7 +24,7 @@ function App() {
             </div>
           </div>
           <div className=" bg-gray-100">
-            <div className="container mx-auto py-10">
+            <div className="container mx-auto min-h-[calc(100vh_-_100px)] py-10">
               <Filter />
               <Characters />
             </div>

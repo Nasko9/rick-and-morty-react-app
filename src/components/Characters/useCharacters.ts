@@ -3,29 +3,34 @@ import { useInfiniteQuery } from "react-query";
 
 // Api
 import axios from "../../api/axiosInstance";
-import FilterContext from "../Filter/filterContext";
+
+// Context
+import FilterContext from "../../context/filterContext";
 
 export default function useCharacters() {
-  const { filterValue } = useContext(FilterContext);
+  const { filterValue, searchValue } = useContext(FilterContext);
 
   // Function for fetching all data
   const fetchCharacters = ({ pageParam = 1 }) => {
-    return axios.get(`/character/?page=${pageParam}&status=${filterValue}`);
+    return axios.get(
+      `/character/?page=${pageParam}&status=${filterValue}&name=${searchValue}`
+    );
   };
 
-  const { isLoading, data, hasNextPage, fetchNextPage } = useInfiniteQuery(
-    ["characters", filterValue],
-    fetchCharacters,
-    {
-      getNextPageParam: (_lastPage, pages) => {
-        if (pages.length < pages[0].data.info.pages) {
-          return pages.length + 1;
-        } else {
-          return undefined;
-        }
-      },
-    }
-  );
+  const { isLoading, data, hasNextPage, fetchNextPage, status } =
+    useInfiniteQuery(
+      ["characters", filterValue, searchValue],
+      fetchCharacters,
+      {
+        getNextPageParam: (_lastPage, pages) => {
+          if (pages.length < pages[0].data.info.pages) {
+            return pages.length + 1;
+          } else {
+            return undefined;
+          }
+        },
+      }
+    );
 
   useEffect(() => {
     let fetching = false;
@@ -51,5 +56,6 @@ export default function useCharacters() {
   return {
     data,
     isLoading,
+    status,
   };
 }
