@@ -8,6 +8,9 @@ import ErrorMessage from "../ErrorMessage";
 // Hook
 import useCharacters from "./useCharacters";
 
+// Types
+import { ICharacter } from "../../api/characters/Types";
+
 export default function Characters() {
   const { data, isLoading, status } = useCharacters();
   return (
@@ -18,7 +21,7 @@ export default function Characters() {
         ) : (
           data?.pages.map((group, i) => (
             <React.Fragment key={i}>
-              {group.data.results.map((character: any) => (
+              {group.data.results.map((character: ICharacter) => (
                 <Card key={character.id} {...character} />
               ))}
             </React.Fragment>
