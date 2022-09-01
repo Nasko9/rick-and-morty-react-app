@@ -1,7 +1,6 @@
-import { Dispatch, SetStateAction } from "react";
-import { createContext, useState } from "react";
+import { createContext, useState, Dispatch, SetStateAction } from "react";
 
-// Type
+// Typs
 interface IFilterValueContext {
   filterValue: string;
   setFilterValue: Dispatch<SetStateAction<string>>;

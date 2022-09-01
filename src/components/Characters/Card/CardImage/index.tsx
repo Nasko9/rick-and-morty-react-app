@@ -1,3 +1,4 @@
+// Type
 interface ICardImage {
   image: string;
   alt: string;

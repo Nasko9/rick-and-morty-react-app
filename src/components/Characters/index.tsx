@@ -8,7 +8,7 @@ import ErrorMessage from "../ErrorMessage";
 // Hook
 import useCharacters from "./useCharacters";
 
-// Types
+// Type
 import { ICharacter } from "../../api/characters/types";
 
 export default function Characters() {

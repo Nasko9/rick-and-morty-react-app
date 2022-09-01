@@ -3,7 +3,6 @@ import { useContext } from "react";
 // Context
 import FilterContext from "../../context/filterContext";
 
-// Hook
 export default function useFilter() {
   const { filterValue, setFilterValue } = useContext(FilterContext);
 
