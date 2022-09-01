@@ -17,5 +17,5 @@
  3. Start the project with command npm run start 
  4. Enjoy 👨‍💻
  
- ======================
- Create with ♥️ by Nasko
+======================
+Create with ♥️ by Nasko
