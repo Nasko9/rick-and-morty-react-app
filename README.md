@@ -16,6 +16,3 @@
  2. Add .env file for base url. 
  3. Start the project with command npm run start 
  4. Enjoy 👨‍💻
- 
-======================
-Create with ♥️ by Nasko
