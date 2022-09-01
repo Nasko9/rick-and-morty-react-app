@@ -10,20 +10,19 @@ import FilterContext from "../../context/filterContext";
 export default function useCharacters() {
   const { filterValue, searchValue } = useContext(FilterContext);
 
-  const { isLoading, data, hasNextPage, fetchNextPage, status } =
-    useInfiniteQuery(
-      ["characters", filterValue, searchValue],
-      () => fetchCharacters(1, filterValue, searchValue),
-      {
-        getNextPageParam: (_lastPage, pages) => {
-          if (pages.length < pages[0].data.info.pages) {
-            return pages.length + 1;
-          } else {
-            return undefined;
-          }
-        },
-      }
-    );
+  const { data, hasNextPage, fetchNextPage, status } = useInfiniteQuery(
+    ["characters", filterValue, searchValue],
+    () => fetchCharacters(1, filterValue, searchValue),
+    {
+      getNextPageParam: (_lastPage, pages) => {
+        if (pages.length < pages[0].data.info.pages) {
+          return pages.length + 1;
+        } else {
+          return undefined;
+        }
+      },
+    }
+  );
 
   useEffect(() => {
     let fetching = false;
@@ -50,7 +49,6 @@ export default function useCharacters() {
 
   return {
     data,
-    isLoading,
     status,
   };
 }
