@@ -1,22 +1,24 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useInfiniteQuery } from "react-query";
 
 // Api
 import axios from "../../api/axiosInstance";
+import FilterContext from "../Filter/filterContext";
 
-// Function for fetching data
-const fetchCharacters = ({ pageParam = 1 }) => {
-  return axios.get(`/character/?page=${pageParam}`);
-};
-
-// Custom hook
 export default function useCharacters() {
+  const { filterValue } = useContext(FilterContext);
+
+  // Function for fetching all data
+  const fetchCharacters = ({ pageParam = 1 }) => {
+    return axios.get(`/character/?page=${pageParam}&status=${filterValue}`);
+  };
+
   const { isLoading, data, hasNextPage, fetchNextPage } = useInfiniteQuery(
-    "characters",
+    ["characters", filterValue],
     fetchCharacters,
     {
       getNextPageParam: (_lastPage, pages) => {
-        if (pages.length < 42) {
+        if (pages.length < pages[0].data.info.pages) {
           return pages.length + 1;
         } else {
           return undefined;
@@ -44,7 +46,7 @@ export default function useCharacters() {
     return () => {
       document.removeEventListener("scroll", onScroll);
     };
-  }, [fetchNextPage, hasNextPage]);
+  }, [fetchNextPage, hasNextPage, filterValue]);
 
   return {
     data,

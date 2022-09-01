@@ -6,26 +6,31 @@ import Header from "./components/Header";
 import Filter from "./components/Filter";
 import Characters from "./components/Characters";
 
+// Context
+import { FilterContextProvider } from "./components/Filter/filterContext";
+
 // React Qery client
 const queryClient = new QueryClient();
 
 function App() {
   return (
     <div className="App">
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
-        <div className="bg-white">
-          <div className="container mx-auto py-5">
-            <Header />
+      <FilterContextProvider>
+        <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <div className="bg-white">
+            <div className="container mx-auto py-5">
+              <Header />
+            </div>
           </div>
-        </div>
-        <div className=" bg-gray-100">
-          <div className="container mx-auto py-10">
-            <Filter />
-            <Characters />
+          <div className=" bg-gray-100">
+            <div className="container mx-auto py-10">
+              <Filter />
+              <Characters />
+            </div>
           </div>
-        </div>
-      </QueryClientProvider>
+        </QueryClientProvider>
+      </FilterContextProvider>
     </div>
   );
 }
