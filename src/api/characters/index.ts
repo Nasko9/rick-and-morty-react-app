@@ -5,9 +5,15 @@ const fetchCharacters = (
   filterValue: string,
   searchValue: string
 ) => {
-  return axios.get(
-    `/character/?page=${pageParam}&status=${filterValue}&name=${searchValue}`
-  );
+  return axios({
+    method: "GET",
+    url: `/character/`,
+    params: {
+      page: pageParam,
+      status: filterValue,
+      name: searchValue,
+    },
+  });
 };
 
 export default fetchCharacters;

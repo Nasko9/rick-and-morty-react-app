@@ -28,14 +28,16 @@ export default function useCharacters() {
   useEffect(() => {
     let fetching = false;
 
-    const onScroll = async (event: any) => {
-      const { scrollHeight, scrollTop, clientHeight } =
-        event.target.scrollingElement;
+    const onScroll = async () => {
+      if (document.scrollingElement) {
+        const { scrollHeight, scrollTop, clientHeight } =
+          document.scrollingElement;
 
-      if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.5) {
-        fetching = true;
-        if (hasNextPage) fetchNextPage();
-        fetching = false;
+        if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.5) {
+          fetching = true;
+          if (hasNextPage) fetchNextPage();
+          fetching = false;
+        }
       }
     };
 
