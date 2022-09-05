@@ -12,14 +12,14 @@ export default function useCharacters() {
 
   const { data, hasNextPage, fetchNextPage, status } = useInfiniteQuery(
     ["characters", filterValue, searchValue],
-    () => fetchCharacters(1, filterValue, searchValue),
+    (queryContext) =>
+      fetchCharacters(queryContext.pageParam, filterValue, searchValue),
     {
-      getNextPageParam: (_lastPage, pages) => {
-        if (pages.length < pages[0].data.info.pages) {
-          return pages.length + 1;
-        } else {
-          return undefined;
+      getNextPageParam: (_lastPage, allPages) => {
+        if (allPages.length < allPages[0].data.info.pages) {
+          return allPages.length + 1;
         }
+        return undefined;
       },
     }
   );
