@@ -1,10 +1,20 @@
-import { fireEvent, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
+
+// Component
 import Filter from ".";
 
-test("radio button exist in filter section", () => {
-  const { getByLabelText } = render(<Filter />);
+describe("filter", () => {
+  test("should render specific radio button in filter", () => {
+    const { getByLabelText } = render(<Filter />);
 
-  const radio = getByLabelText("Dead") as HTMLInputElement;
-  fireEvent.change(radio, { target: { value: "dead" } });
-  expect(radio.value).toBe("dead");
+    const radio = getByLabelText("Alive") as HTMLInputElement;
+    expect(radio);
+  });
+
+  test("should render all radio buttons in filter", () => {
+    const { getAllByRole } = render(<Filter />);
+
+    const radioButtons = getAllByRole("radio") as HTMLInputElement[];
+    expect(radioButtons.length).toBe(4);
+  });
 });

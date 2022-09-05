@@ -30,7 +30,12 @@ export function FilterContextProvider({ children }: IRadioContextProvider) {
 
   return (
     <FilterContext.Provider
-      value={{ filterValue, setFilterValue, searchValue, setSearchValue }}
+      value={{
+        filterValue,
+        setFilterValue,
+        searchValue,
+        setSearchValue,
+      }}
     >
       {children}
     </FilterContext.Provider>
