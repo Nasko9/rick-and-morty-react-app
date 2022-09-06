@@ -10,8 +10,8 @@ const fetchCharacters = (
     url: `/character/`,
     params: {
       page: pageParam,
-      status: filterValue,
-      name: searchValue,
+      ...(filterValue ? { status: filterValue } : ""),
+      ...(searchValue ? { name: searchValue } : ""),
     },
   });
 };
